@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -24,10 +25,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isviewingGraph = false;
-  DatabaseReference reff;
+    DatabaseReference reff;
+    Intent intent;
 
    public static ArrayList<String>courseName = new ArrayList<String>();
    public static ArrayList<Float>progressStats = new ArrayList<Float>();
+
+   public void back(View view){
+       isviewingGraph=false;
+       startActivity(intent);
+   }
 
     public void getCourse() {
 
@@ -80,10 +87,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         reff = FirebaseDatabase.getInstance().getReference().child("Student").child("1");
         getCourse();
         getProgress();
-        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+        intent = new Intent(getApplicationContext(),HomeActivity.class);
         if(isviewingGraph) {
 
             setupPieChart();
